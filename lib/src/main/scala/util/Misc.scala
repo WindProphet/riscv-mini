@@ -4,7 +4,7 @@
 package util
 
 import Chisel._
-import config._
+import fconfig._
 import scala.math._
 
 class ParameterizedBundle(implicit p: Parameters) extends Bundle {

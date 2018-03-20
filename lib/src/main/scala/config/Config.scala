@@ -1,6 +1,6 @@
 // See LICENSE.SiFive for license details.
 
-package freechips.rocketchip.config
+package fconfig
 
 abstract class Field[T] private (val default: Option[T])
 {
@@ -19,7 +19,7 @@ abstract class View {
   final def lift[T](pname: Field[T]): Option[T] = lift(pname, this)
   final def lift[T](pname: Field[T], site: View): Option[T] = find(pname, site).map(_.asInstanceOf[T])
 
-  protected[config] def find[T](pname: Field[T], site: View): Option[T]
+  protected[fconfig] def find[T](pname: Field[T], site: View): Option[T]
 }
 
 abstract class Parameters extends View {
@@ -27,8 +27,8 @@ abstract class Parameters extends View {
   final def alter(f: (View, View, View) => PartialFunction[Any,Any]): Parameters = Parameters(f) ++ this
   final def alterPartial(f: PartialFunction[Any,Any]):                Parameters = Parameters((_,_,_) => f) ++ this
 
-  protected[config] def chain[T](site: View, tail: View, pname: Field[T]): Option[T]
-  protected[config] def find[T](pname: Field[T], site: View) = chain(site, new TerminalView, pname)
+  protected[fconfig] def chain[T](site: View, tail: View, pname: Field[T]): Option[T]
+  protected[fconfig] def find[T](pname: Field[T], site: View) = chain(site, new TerminalView, pname)
 }
 
 object Parameters {
@@ -40,7 +40,7 @@ object Parameters {
 class Config(p: Parameters) extends Parameters {
   def this(f: (View, View, View) => PartialFunction[Any,Any]) = this(Parameters(f))
 
-  protected[config] def chain[T](site: View, tail: View, pname: Field[T]) = p.chain(site, tail, pname)
+  protected[fconfig] def chain[T](site: View, tail: View, pname: Field[T]) = p.chain(site, tail, pname)
   override def toString = this.getClass.getSimpleName
   def toInstance = this
 }
@@ -64,7 +64,7 @@ private class EmptyParameters extends Parameters {
 }
 
 private class PartialParameters(f: (View, View, View) => PartialFunction[Any,Any]) extends Parameters {
-  protected[config] def chain[T](site: View, tail: View, pname: Field[T]) = {
+  protected[fconfig] def chain[T](site: View, tail: View, pname: Field[T]) = {
     val g = f(site, this, tail)
     if (g.isDefinedAt(pname)) Some(g.apply(pname).asInstanceOf[T]) else tail.find(pname, site)
   }

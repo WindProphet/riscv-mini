@@ -5,7 +5,7 @@ package mini
 import chisel3._
 import chisel3.util._
 import junctions._
-import freechips.rocketchip.config.Parameters
+import fconfig.Parameters
 
 class MemArbiter(implicit p: Parameters) extends Module {
   val io = IO(new ParameterizedBundle {
@@ -21,19 +21,19 @@ class MemArbiter(implicit p: Parameters) extends Module {
   io.nasti.aw.bits := io.dcache.aw.bits
   io.nasti.aw.valid := io.dcache.aw.valid && state === s_IDLE
   io.dcache.aw.ready := io.nasti.aw.ready && state === s_IDLE
-  io.icache.aw := DontCare
+  // io.icache.aw := DontCare
 
   // Write Data 
   io.nasti.w.bits  := io.dcache.w.bits
   io.nasti.w.valid := io.dcache.w.valid && state === s_DCACHE_WRITE
   io.dcache.w.ready := io.nasti.w.ready && state === s_DCACHE_WRITE
-  io.icache.w := DontCare
+  // io.icache.w := DontCare
 
   // Write Ack
   io.dcache.b.bits := io.nasti.b.bits
   io.dcache.b.valid := io.nasti.b.valid && state === s_DCACHE_ACK
   io.nasti.b.ready := io.dcache.b.ready && state === s_DCACHE_ACK
-  io.icache.b := DontCare
+  // io.icache.b := DontCare
 
   // Read Address
   io.nasti.ar.bits := NastiReadAddressChannel(

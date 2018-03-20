@@ -7,7 +7,7 @@ import chisel3.util._
 import chisel3.testers._
 import Control._
 
-class ImmGenTester(imm: => ImmGen)(implicit p: config.Parameters) extends BasicTester with TestUtils {
+class ImmGenTester(imm: => ImmGen)(implicit p: fconfig.Parameters) extends BasicTester with TestUtils {
   val dut = Module(imm)
   val ctrl = Module(new Control)
   val xlen = p(XLEN)
@@ -38,7 +38,7 @@ class ImmGenTester(imm: => ImmGen)(implicit p: config.Parameters) extends BasicT
 }
 
 class ImmGenTests extends org.scalatest.FlatSpec {
-  implicit val p = config.Parameters.root((new MiniConfig).toInstance)
+  implicit val p = fconfig.Parameters.root((new MiniConfig).toInstance)
   "ImmGenWire" should "pass" in {
     assert(TesterDriver execute (() => new ImmGenTester(new ImmGenWire)))
   }

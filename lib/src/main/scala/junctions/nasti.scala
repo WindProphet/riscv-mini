@@ -5,7 +5,7 @@ package junctions
 import Chisel._
 import scala.math.max
 import scala.collection.mutable.ArraySeq
-import freechips.project.config._
+import fconfig._
 import util._
 
 case object NastiKey extends Field[NastiParameters]

@@ -7,7 +7,7 @@ import chisel3.util._
 import chisel3.testers._
 import Control._
 
-class BrCondTester(br: => BrCond)(implicit p: config.Parameters) extends BasicTester with TestUtils {
+class BrCondTester(br: => BrCond)(implicit p: fconfig.Parameters) extends BasicTester with TestUtils {
   val dut = Module(br)
   val ctrl = Module(new Control)
   val xlen = p(XLEN)
@@ -48,7 +48,7 @@ class BrCondTester(br: => BrCond)(implicit p: config.Parameters) extends BasicTe
 }
 
 class BrCondTests extends org.scalatest.FlatSpec {
-  implicit val p = config.Parameters.root((new MiniConfig).toInstance)
+  implicit val p = fconfig.Parameters.root((new MiniConfig).toInstance)
   "BrCondSimple" should "pass" in {
     assert(TesterDriver execute (() => new BrCondTester(new BrCondSimple)))
   }

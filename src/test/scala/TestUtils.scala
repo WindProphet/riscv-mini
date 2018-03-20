@@ -206,7 +206,7 @@ trait HexUtils {
 }
 
 object TestParams {
-  implicit val p = config.Parameters.root(
+  implicit val p = fconfig.Parameters.root(
     (new MiniConfig).toInstance) alterPartial { case Trace => false }
 }
 

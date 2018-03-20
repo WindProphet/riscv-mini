@@ -3,7 +3,7 @@
 package mini
 
 import chisel3.Bundle
-import freechips.rocketchip.config.Parameters
+import fconfig.Parameters
 
 abstract class ParameterizedBundle(implicit p: Parameters) extends chisel3.Bundle {
   override def cloneType =

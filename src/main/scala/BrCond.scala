@@ -3,7 +3,7 @@
 package mini
 
 import chisel3._
-import freechips.rocketchip.config.Parameters
+import fconfig.Parameters
 import Control._
 
 class BrCondIO(implicit p: Parameters) extends CoreBundle()(p) {
